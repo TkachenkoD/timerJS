@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Timer JS</title>
+  <style>
+
+    *{margin: 0;
+      padding: 0;
+
+    }
+    body{
+      background-color: #1f1f25;
+      background-image: url("earth.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: sans-serif;
+      }
+
+          section{
+          width: 75%;
+          height: 10em;
+          /* background-color: #1f1f25; */
+          background-image: radial-gradient(closest-side at 50% 55%, #223042, transparent);
+          margin: 5em auto;
+          text-align: center;
+          }
+
+          .timer-inner{
+            padding-top: 25px;
+            width: 50%;
+            margin: 0 auto;
+          }
+          button{
+            width: 100%;
+            height: 35px;
+            border: none;
+            /* background-color: #1f1f2575; */
+            background-color: rgba(31,31,37,0.5);
+            outline: none;
+            color: #f2f2f2;
+            cursor: pointer;
+          }
+           button:hover{
+             text-shadow: 1px 0 5px white;
+           }
+
+            span{
+              font-size: 5em;
+              color: white;
+            }
+            .btnStart{
+              display: block;
+            }
+            .btnPause{
+              display: none;
+            }
+            .btnContinue{
+              display: none;
+            }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="timer-inner">
+        <span class="hours">00:</span>
+        <span class="minutes">00:</span>
+        <span class="seconds">00</span>
+    </div>
+    <button type="button" class="btnStart" name="button">Start</button>
+    <button type="button" class="btnPause" name="button">Pause</button>
+    <button type="button" class="btnContinue" name="button">Continue</button>
+    <button type="button" class="btnClear" name="button">Clear</button>
+
+
+  </section>
+
+  <script>
+
+      //event on a button
+
+      var btnForStart = document.querySelector('.btnStart');
+      btnForStart.addEventListener('click', funcStartTimer);
+      var btnForContinue = document.querySelector('.btnContinue');
+
+
+
+      function funcStartTimer(){
+        var resHour = 0;
+        var resMin = 0;
+        var res = 0; //seconds
+        var sec = document.querySelector('.timer-inner .seconds');
+        var min = document.querySelector('.timer-inner .minutes');
+        var hour = document.querySelector('.timer-inner .hours');
+        btnForStart.style.cssText = "display:none;"
+        btnForContinue.style.cssText = "display:none;"
+
+        //to stop timer
+
+        var btnForPause = document.querySelector('.btnPause');
+        btnForPause.style.cssText = "display:block;"
+        btnForPause.addEventListener('click', funcStopTimer);
+
+
+        var timeFunc = function(){
+
+          res = res + 1;
+          if(res < 10){
+          sec.innerHTML = '0' + res;
+        }else{
+          sec.innerHTML = res;
+            if(res == 59){
+              res = 0;
+              sec.innerHTML = '0' + res;
+              resMin = resMin + 1;
+                  if(resMin < 10){
+                  min.innerHTML = '0' + resMin + ':';
+                    }
+                  else{
+                    min.innerHTML = resMin + ':';
+                      if(resMin == 12){
+                        resMin = 0;
+                        resHour = resHour + 1;
+                        hour.innerHTML = '0' + resHour + ':';
+                          if(resHour > 9){
+                            hour.innerHTML = resHour + ':';
+
+                          }
+                      }
+                  }
+            }
+          }
+        }
+
+        var timerId = setInterval(timeFunc, 1000);
+
+        function funcStopTimer(){
+            clearInterval(timerId);
+
+            btnForPause.style.cssText = "display:none;"
+           btnForStart.style.cssText = "display:block;"
+            // btnForContinue.style.cssText = "display:block;"
+
+            btnForContinue.addEventListener('click',funcStartTimer);
+
+            // to clear
+
+                  function funcClear (){
+                    clearInterval(timerId);
+                    var resHour = 0;
+                    var resMin = 0;
+                    var res = 0; //seconds
+
+                      sec.innerHTML = '0' + res;
+                      min.innerHTML = '0' + resMin + ':';
+                        hour.innerHTML = '0' + resHour + ':';
+
+                  }
+
+                  var btnForClear = document.querySelector('.btnClear');
+                  btnForClear.addEventListener('click', funcClear);
+            }
+      };
+
+
+  </script>
+</body>
+</html>
